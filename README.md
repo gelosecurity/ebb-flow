@@ -65,10 +65,6 @@ Follow these steps to install ebb&flow in your Chrome browser:
 - ebb&flow does not collect, store, or share any personal data.
 - All data fetched is directly from the respective third-party websites upon your request.
 
-## Support & Feedback
-
-- If you have any questions, feedback, or need assistance, please contact us at [your support email].
-
 ## Disclaimer
 
 - **No Financial Advice:** ebb&flow is an informational tool designed to aggregate publicly available financial data. It does not provide financial advice or make investment recommendations.
