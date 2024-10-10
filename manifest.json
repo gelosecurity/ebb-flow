@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "ebb&flow",
+  "description": "Displays multiple stock-related windows for a given stock symbol.",
+  "version": "1.0",
+  "permissions": ["storage", "tabs"],
+  "host_permissions": [
+    "https://unusualwhales.com/*",
+    "https://www.tradingview.com/*",
+    "https://x.com/*",
+    "https://stocktwits.com/*",
+    "https://seekingalpha.com/*",
+    "http://openinsider.com/*",
+    "https://fintel.io/*"
+  ],
+  "action": {
+    "default_title": "ebb&flow"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
+
