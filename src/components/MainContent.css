@@ -30,7 +30,70 @@
 }
 
 /* Vertical resize handle */
-.resize-handle[data-panel-group-direction="vertical"] {
+[data-panel-group-direction="vertical"] > .resize-handle {
   height: 4px;
   width: 100%;
+}
+
+.window-controls {
+  display: flex;
+  padding: 10px;
+  background-color: #2b2b2b;
+  gap: 10px;
+  align-items: center; /* This ensures vertical alignment of items */
+}
+
+.window-controls input {
+  flex: 1;
+  padding: 5px;
+  background-color: #3a3a3a;
+  border: none;
+  color: #e0e0e0;
+}
+
+.window-controls button {
+  padding: 5px 10px;
+  background-color: #811112;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.window-controls button:hover {
+  background-color: #a11414;
+}
+
+/* Add this new style for the Reset to Default button */
+.reset-to-default {
+  margin-right: 20px; /* This pushes the button to the left */
+}
+
+.window-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.remove-window {
+  position: absolute;
+  top: 10px;
+  right: 13px;
+  background-color: black;
+  color: red;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  /* z-index: 10; */
+}
+
+.remove-window:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.panel-container {
+  height: calc(100% - 50px); /* Adjust based on the height of window-controls */
 }
