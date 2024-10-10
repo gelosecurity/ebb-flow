@@ -105,8 +105,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Add event listener for window resize to adjust window sizes dynamically
   window.addEventListener('resize', function () {
-    loadWindows(currentStockSymbol);
+    adjustWindows();
   });
+
+  // Notepad functionality
+  const toggleNotepadBtn = document.getElementById('toggle-notepad');
+  const notepadSidebar = document.getElementById('notepad-sidebar');
+  const notepadTextarea = document.getElementById('notepad');
+  const mainContent = document.getElementById('windows-container');
+
+  // Load saved notes
+  notepadTextarea.value = localStorage.getItem('notepadContent') || '';
+
+  // Toggle notepad sidebar
+  toggleNotepadBtn.addEventListener('click', function() {
+    notepadSidebar.classList.toggle('open');
+    mainContent.classList.toggle('notepad-open');
+    adjustWindows();
+  });
+
+  // Save notes to localStorage
+  notepadTextarea.addEventListener('input', function() {
+    localStorage.setItem('notepadContent', notepadTextarea.value);
+  });
+
+  function adjustWindows() {
+    // Adjust windows when notepad is toggled
+    const isNotepadOpen = notepadSidebar.classList.contains('open');
+    const containerWidth = isNotepadOpen ? 
+      mainContent.clientWidth - 300 : mainContent.clientWidth;
+    
+    // ... existing window adjustment logic ...
+  }
 
   function loadWindows(stockSymbol) {
     const windowsContainer = document.getElementById('windows-container');
