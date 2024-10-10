@@ -1,8 +1,52 @@
-# React + Vite
+# ebb&flow Chrome Extension
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ebb&flow is a Chrome extension built with React and Vite that displays multiple stock-related windows for a given stock symbol.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js (v14 or later)
+- npm (v6 or later)
+- Google Chrome browser
+
+## Building the Project
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/ebb-flow.git
+   cd ebb-flow
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+3. Build the project:
+   ```
+   npm run build
+   ```
+
+   This will create a `dist` folder with the built files.
+
+## Loading the Extension in Chrome
+
+1. Open Google Chrome and navigate to `chrome://extensions`.
+
+2. Enable "Developer mode" by toggling the switch in the top right corner.
+
+3. Click "Load unpacked" and select the `dist` folder from your project directory.
+
+4. The ebb&flow extension should now appear in your list of extensions.
+
+## Using the Extension
+
+1. Click on the ebb&flow icon in your Chrome toolbar to open the extension in a new tab.
+
+2. Use the sidebar to enter a stock symbol and load related information.
+
+3. Utilize the resizable panels to view different stock-related data.
+
+4. Use the notepad feature to jot down your analysis.
+
+## Development
+
