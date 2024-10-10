@@ -15,13 +15,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let currentStockSymbol = 'SPY'; // Default stock symbol
 
-  loadBtn.addEventListener('click', function () {
+  // Function to load stock data
+  function loadStock() {
     let inputSymbol = stockInput.value.trim().toUpperCase() || 'SPY';
-
-    // Remove $ if present at the start
     currentStockSymbol = inputSymbol.replace(/^\$/, '');
-
     loadWindows(currentStockSymbol);
+  }
+
+  // Existing event listener for the Load button
+  loadBtn.addEventListener('click', function () {
+    loadStock();
+  });
+
+  // New event listener for Enter key press on stock input
+  stockInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent form submission if it's in a form
+      loadStock();
+    }
   });
 
   // Add event listeners to links
