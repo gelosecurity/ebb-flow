@@ -2,6 +2,8 @@
 
 *Streamline Your Stock Research Workflow*
 
+![ebb&flow Dashboard](ebbflow.png)
+
 ## Description
 
 ebb&flow is a streamlined Chrome extension that offers a multi-window view of your most commonly used Unusual Whales data, along with a convenient sidebar featuring quick links to all your favorite financial resources. By consolidating these tools into one interface, ebb&flow eliminates the hassle of manually opening multiple tabs and navigating through bookmarks, enhancing your market research efficiency and keeping you connected to the financial world.
@@ -72,8 +74,6 @@ Follow these steps to install ebb&flow in your Chrome browser:
 - **No Financial Advice:** ebb&flow is an informational tool designed to aggregate publicly available financial data. It does not provide financial advice or make investment recommendations.
 - **Third-Party Content:** The extension provides links to third-party websites. We are not responsible for the content or accuracy of information on these sites.
 - **User Responsibility:** Always conduct your own due diligence and consult with a licensed financial advisor before making any investment decisions.
-
-
 
 ---
 
