@@ -1,0 +1,100 @@
+[cmdk-dialog] {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 640px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  z-index: 9999;
+}
+
+[cmdk-input] {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 18px;
+  background: #ffffff;
+  border: none;
+  color: #333;
+  outline: none;
+}
+
+[cmdk-input]:focus {
+  outline: none;
+}
+
+[cmdk-input]::placeholder {
+  color: #999;
+}
+
+[cmdk-list] {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+[cmdk-item] {
+  padding: 12px 24px;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.2s ease;
+}
+
+[cmdk-item]:hover {
+  background: #f0f7ff;
+}
+
+[cmdk-item][data-selected="true"] {
+  background: #e6f2ff;
+}
+
+[cmdk-group-heading] {
+  padding: 8px 24px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+[cmdk-empty] {
+  padding: 16px 24px;
+  color: #999;
+  font-style: italic;
+}
+
+/* Scrollbar styles */
+[cmdk-list]::-webkit-scrollbar {
+  width: 6px;
+}
+
+[cmdk-list]::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+[cmdk-list]::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+[cmdk-list]::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Animation for dialog opening */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px) translateX(-50%); }
+  to { opacity: 1; transform: translateY(0) translateX(-50%); }
+}
+
+[cmdk-dialog] {
+  animation: slideDown 0.2s ease-out;
+}

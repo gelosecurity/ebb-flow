@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import './Sidebar.css';
 
+// Import logos
+import tradingviewLogo from '../assets/tradingview.png';
+import twitterLogo from '../assets/Twitter-X-Logo.png';
+import stocktwitsLogo from '../assets/stocktwits.webp';
+import seekingalphaLogo from '../assets/seekingalpha.png';
+import openinsiderLogo from '../assets/openinsider.png';
+import whalewisdomLogo from '../assets/whalewisdom.png';
+import googleLogo from '../assets/Google_News_icon.png';
+
+
 const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
   const [inputSymbol, setInputSymbol] = useState('');
 
@@ -18,13 +28,13 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
   };
 
   const quickLinks = [
-    { icon: 'fa-solid fa-chart-line', url: 'https://www.tradingview.com/chart/?symbol={symbol}', title: 'TradingView Chart' },
-    { icon: 'fab fa-twitter', url: 'https://x.com/search?q=%24{symbol}&src=typed_query', title: 'X (Twitter)' },
-    { icon: 'fa-solid fa-comments-dollar', url: 'https://stocktwits.com/symbol/{symbol}', title: 'StockTwits' },
-    { icon: 'fa-solid fa-magnifying-glass-dollar', url: 'https://seekingalpha.com/symbol/{symbol}', title: 'SeekingAlpha' },
-    { icon: 'fa-solid fa-user-secret', url: 'http://openinsider.com/search?q={symbol}', title: 'OpenInsider' },
-    { icon: 'fa-solid fa-fish-fins', url: 'https://whalewisdom.com/stock/{symbol}', title: 'WhaleWisdom' },
-    { icon: 'fab fa-google', url: 'https://www.google.com/search?q=%24{symbol}+news', title: 'Google News' },
+    { logo: tradingviewLogo, url: 'https://www.tradingview.com/chart/?symbol={symbol}', title: 'TradingView Chart' },
+    { logo: twitterLogo, url: 'https://x.com/search?q=%24{symbol}&src=typed_query', title: 'X (Twitter)' },
+    { logo: stocktwitsLogo, url: 'https://stocktwits.com/symbol/{symbol}', title: 'StockTwits' },
+    { logo: seekingalphaLogo, url: 'https://seekingalpha.com/symbol/{symbol}', title: 'SeekingAlpha' },
+    { logo: openinsiderLogo, url: 'http://openinsider.com/search?q={symbol}', title: 'OpenInsider' },
+    { logo: whalewisdomLogo, url: 'https://whalewisdom.com/stock/{symbol}', title: 'WhaleWisdom' },
+    { logo: googleLogo, url: 'https://www.google.com/search?q=%24{symbol}+news', title: 'Google News' },
     { icon: 'fa-solid fa-chart-column', url: 'https://fintel.io/ss/us/{symbol}', title: 'Fintel Short Interest' },
     { icon: 'fa-solid fa-building-columns', url: 'https://fintel.io/so/us/{symbol}', title: 'Fintel Institutional Accumulation' },
   ];
@@ -46,7 +56,11 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
       <div className="links-container">
         {quickLinks.map((link, index) => (
           <a key={index} href="#" onClick={() => openLink(link.url)} title={link.title}>
-            <i className={link.icon}></i>
+            {link.logo ? (
+              <img src={link.logo} alt={link.title} className="quicklink-logo" />
+            ) : (
+              <i className={link.icon}></i>
+            )}
           </a>
         ))}
       </div>

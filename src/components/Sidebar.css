@@ -68,6 +68,26 @@
   width: 100%;
 }
 
+.links-container a {
+  margin-bottom: 10px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quicklink-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.links-container i {
+  font-size: 24px;
+  color: #e0e0e0;
+}
+
 .sidebar a {
   color: #e0e0e0;
   text-decoration: none;
