@@ -73,9 +73,7 @@ Follow these steps to install ebb&flow in your Chrome browser:
 - **Third-Party Content:** The extension provides links to third-party websites. We are not responsible for the content or accuracy of information on these sites.
 - **User Responsibility:** Always conduct your own due diligence and consult with a licensed financial advisor before making any investment decisions.
 
-## License
 
-[Include your license information here, if applicable.]
 
 ---
 
