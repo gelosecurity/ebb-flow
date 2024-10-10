@@ -1,0 +1,154 @@
+.sidebar {
+  width: 70px;
+  height: 100vh;
+  background-color: #121212;
+  padding: 10px 5px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.sidebar h4 {
+  font-size: 12px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #e0e0e0;
+}
+
+.sidebar .input-field {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.sidebar input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  font-size: 10px;
+  box-sizing: border-box;
+  background-color: #2b2b2b;
+  border: none;
+  color: #e0e0e0;
+  text-align: center;
+}
+
+.sidebar .load-btn,
+.sidebar .open-all-btn {
+  width: 100%;
+  padding: 5px;
+  background-color: #811112;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+  font-size: 10px;
+  transition: background-color 0.3s;
+  margin-bottom: 10px;
+}
+
+.sidebar .load-btn:hover,
+.sidebar .open-all-btn:hover {
+  background-color: #a11414;
+}
+
+.quick-links-label {
+  font-size: 10px;
+  color: #e0e0e0;
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+.links-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.links-container a {
+  margin-bottom: 10px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quicklink-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.links-container i {
+  font-size: 24px;
+  color: #e0e0e0;
+}
+
+.sidebar a {
+  color: #e0e0e0;
+  text-decoration: none;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 5px;
+  background-color: #2b2b2b;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #3a3a3a;
+  transform: scale(1.1);
+}
+
+.sidebar a i {
+  font-size: 18px;
+}
+
+.sidebar a::after {
+  content: attr(title);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 1000;
+  margin-left: 10px;
+}
+
+.sidebar a:hover::after {
+  opacity: 1;
+}
+
+/* Custom styles for specific icons */
+.sidebar a .fa-fish {
+  transform: scaleX(-1);
+}
+
+/* Scrollbar styles */
+.sidebar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #3a3a3a;
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: #121212;
+}

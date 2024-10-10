@@ -1,45 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ebb&flow</title>
-  <meta charset="UTF-8">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <h4>ebb&flow</h4>
-      <div class="input-field">
-        <input id="stock-input" type="text" placeholder="$SPY" />
-        <button id="load-btn">Load</button>
-      </div>
-      <h4>Quick Links</h4>
-      <a href="#" id="tradingview-link">TradingView Chart</a>
-      <a href="#" id="x-link">X (Twitter)</a>
-      <a href="#" id="stocktwits-link">StockTwits</a> <!-- Added StockTwits -->
-      <a href="#" id="seekingalpha-link">SeekingAlpha</a> <!-- Changed to SeekingAlpha -->
-      <a href="#" id="openinsider-link">OpenInsider</a> <!-- Changed to OpenInsider -->
-      <a href="#" id="whalewisdom-link">WhaleWisdom</a> <!-- Changed to WhaleWisdom -->
-      <a href="#" id="google-news-link">Google News</a> <!-- New Quick Link -->
-      <a href="#" id="fintel-si-link">Fintel Short Interest</a>
-      <a href="#" id="fintel-ia-link">Fintel Institutional Accumulation</a>
-      <!-- Open All Button -->
-      <button id="open-all-btn">Open All</button>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content" id="windows-container">
-      <!-- Windows will be dynamically added here -->
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="popup.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
 
