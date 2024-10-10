@@ -1,58 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ebb&flow</title>
-  <meta charset="UTF-8">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-      <button id="collapse-btn" title="Collapse Sidebar"><i class="fas fa-chevron-left"></i></button>
-      <h4>ebb&flow</h4>
-      <div class="input-field">
-        <input id="stock-input" type="text" placeholder="$SPY" />
-        <button id="load-btn">Load</button>
-      </div>
-      <h4>Quick Links</h4>
-      <div class="links-container">
-        <a href="#" id="tradingview-link" title="TradingView Chart"><i class="fa-solid fa-chart-line"></i></a>
-        <a href="#" id="x-link" title="X (Twitter)"><i class="fab fa-twitter"></i></a>
-        <a href="#" id="stocktwits-link" title="StockTwits"><i class="fa-solid fa-comments-dollar"></i></a>
-        <a href="#" id="seekingalpha-link" title="SeekingAlpha"><i class="fa-solid fa-magnifying-glass-dollar"></i></a>
-        <a href="#" id="openinsider-link" title="OpenInsider"><i class="fa-solid fa-user-secret"></i></a>
-        <a href="#" id="whalewisdom-link" title="WhaleWisdom"><i class="fa-solid fa-fish-fins"></i></a>
-        <a href="#" id="google-news-link" title="Google News"><i class="fab fa-google"></i></a>
-        <a href="#" id="fintel-si-link" title="Fintel Short Interest"><i class="fa-solid fa-chart-column"></i></a>
-        <a href="#" id="fintel-ia-link" title="Fintel Institutional Accumulation"><i class="fa-solid fa-building-columns"></i></a>
-      </div>
-      <!-- Open All Button -->
-      <button id="open-all-btn" title="Open All Links">All</button>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content" id="windows-container">
-      <!-- Windows will be dynamically added here -->
-    </div>
-
-    <!-- Notepad Sidebar -->
-    <div class="notepad-sidebar" id="notepad-sidebar">
-      <button id="toggle-notepad" title="Toggle Notepad"><i class="fas fa-sticky-note"></i></button>
-      <div class="notepad-content">
-        <h4>Notes</h4>
-        <textarea id="notepad" placeholder="Write your analysis here..."></textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="popup.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
 
