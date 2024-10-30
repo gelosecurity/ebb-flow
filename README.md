@@ -48,7 +48,7 @@ ebb&flow is a Chrome extension built with React and Vite that displays multiple 
 
 4. Use the notepad feature to jot down your analysis.
 
-# API key
+## API key
 ebb-flow uses a bring-your-own-api-key model. Get a free api key below, and input it to retrieve data for the toolbar.
 
 https://site.financialmodelingprep.com/
