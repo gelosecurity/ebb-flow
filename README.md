@@ -42,11 +42,17 @@ ebb&flow is a Chrome extension built with React and Vite that displays multiple 
 
 1. Click on the ebb&flow icon in your Chrome toolbar to open the extension in a new tab.
 
-2. Use the sidebar to enter a stock symbol and load related information.
+2. Use the sidebar to enter a stock symbol and load related information. (or cmd+k on Mac, ctrl+k) on Windows
 
 3. Utilize the resizable panels to view different stock-related data.
 
 4. Use the notepad feature to jot down your analysis.
+
+# API key
+ebb-flow uses a bring-your-own-api-key model. Get a free api key below, and input it to retrieve data for the toolbar.
+
+https://site.financialmodelingprep.com/
+
 
 ## Development
 
