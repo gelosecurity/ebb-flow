@@ -74,6 +74,7 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen }) => {
                       {colIndex > 0 && <PanelResizeHandle className="resize-handle" />}
                       <Panel>
                         <div className="window-wrapper">
+                          <div className="window-title">{config.title}</div>
                           <button className="remove-window" onClick={() => removeWindow(index)}>×</button>
                           <iframe
                             src={config.url.replace('{symbol}', currentStockSymbol)}
