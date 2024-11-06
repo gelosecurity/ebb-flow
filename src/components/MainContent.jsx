@@ -9,11 +9,11 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen }) => {
       title: 'Option Flow',
     },
     {
-      url: `https://unusualwhales.com/dark-pool-flow?limit=50&ticker_symbol={symbol}&order=Prem`,
+      url: `https://unusualwhales.com/dark-pool-flow?limit=50&newer_than=1704096000000&older_than=1735718340000&order=Prem&ticker_symbol={symbol}`,
       title: 'Dark Pool Flow',
     },
     {
-      url: `https://unusualwhales.com/lit-flow?limit=50&ticker_symbol={symbol}&order=Prem`,
+      url: `https://unusualwhales.com/lit-flow?limit=50&ticker_symbol={symbol}`,
       title: 'Lit Pool Flow',
     },
     {
