@@ -9,11 +9,16 @@ import seekingalphaLogo from '../assets/seekingalpha.png';
 import openinsiderLogo from '../assets/openinsider.png';
 import whalewisdomLogo from '../assets/whalewisdom.png';
 import googleLogo from '../assets/Google_News_icon.png';
+import unusualwhalesLogo from '../assets/UW_icon.png';
+import finvizLogo from '../assets/finviz.png';
+import fintelLogo from '../assets/fintel.png';
 
 const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
   const [inputSymbol, setInputSymbol] = useState('');
   const [apiKey, setApiKey] = useState(localStorage.getItem('fmpApiKey') || '');
+  const [aletheiaApiKey, setAletheiaApiKey] = useState(localStorage.getItem('aletheiaApiKey') || '');
   const [companyData, setCompanyData] = useState(null);
+  const [priceData, setPriceData] = useState(null);
   const [isApiKeyVisible, setIsApiKeyVisible] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [premiumInput, setPremiumInput] = useState('');
@@ -27,6 +32,12 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
     }
   }, [apiKey, currentStockSymbol]);
 
+  useEffect(() => {
+    if (aletheiaApiKey && currentStockSymbol) {
+      fetchAletheiaData(currentStockSymbol);
+    }
+  }, [aletheiaApiKey, currentStockSymbol]);
+
   const handleLoadStock = () => {
     onLoadStock(inputSymbol || 'SPY');
     setInputSymbol('');
@@ -34,6 +45,10 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
 
   const handleApiKeySave = () => {
     localStorage.setItem('fmpApiKey', apiKey);
+  };
+
+  const handleAletheiaApiKeySave = () => {
+    localStorage.setItem('aletheiaApiKey', aletheiaApiKey);
   };
 
   const fetchCompanyData = async (symbol) => {
@@ -48,40 +63,46 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
     }
   };
 
+  const fetchAletheiaData = async (symbol) => {
+    try {
+      const response = await fetch(`https://api.aletheiaapi.com/StockData?symbol=${symbol}`, {
+        headers: {
+          'key': aletheiaApiKey,
+          'Accept-Version': '2',
+        },
+      });
+      const data = await response.json();
+
+      setPriceData({
+        price: data.Price,
+        change: data.Change,
+        changePercent: data.ChangePercent ? data.ChangePercent * 100 : 0,
+      });
+
+      setCompanyData((prev) => ({
+        ...prev,
+        earningsDate: data.EarningsDate ? formatDate(data.EarningsDate, true) : null,
+        dividendDate: data.DividendDate ? formatDate(data.DividendDate) : null,
+        shortPercentOfFloat: data.ShortPercentOfFloat ? (data.ShortPercentOfFloat * 100).toFixed(2) : null,
+      }));
+    } catch (error) {
+      console.error('Error fetching Aletheia data:', error);
+    }
+  };
+
   const formatMarketCap = (value) => {
-    if (value >= 1e12) {
-      return `$${(value / 1e12).toFixed(2)} trillion USD`;
-    } else if (value >= 1e9) {
-      return `$${(value / 1e9).toFixed(2)} billion USD`;
-    } else if (value >= 1e6) {
-      return `$${(value / 1e6).toFixed(2)} million USD`;
-    } else {
-      return `$${value.toLocaleString()} USD`;
-    }
+    if (!value) return 'N/A';
+    if (value >= 1e12) return `$${(value / 1e12).toFixed(2)} trillion USD`;
+    else if (value >= 1e9) return `$${(value / 1e9).toFixed(2)} billion USD`;
+    else if (value >= 1e6) return `$${(value / 1e6).toFixed(2)} million USD`;
+    else return `$${value.toLocaleString()} USD`;
   };
 
-  const getShortDescription = (description, limit = 100) => {
-    if (!description) return '';
-    if (description.length <= limit) {
-      return description;
-    }
-    return `${description.substring(0, limit)}...`;
+  const formatDate = (dateStr, isEarnings = false) => {
+    const date = new Date(dateStr);
+    const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+    return isEarnings ? `${formattedDate} ${dateStr.includes('00:00:00') ? 'Premarket' : 'Afterhours'}` : formattedDate;
   };
-
-  const openLink = (url) => {
-    window.open(url.replace('{symbol}', currentStockSymbol), '_blank');
-  };
-
-  const quickLinks = [
-    { logo: tradingviewLogo, url: 'https://www.tradingview.com/chart/?symbol={symbol}', title: 'TradingView Chart' },
-    { logo: twitterLogo, url: 'https://x.com/search?q=%24{symbol}&src=typed_query', title: 'X (Twitter)' },
-    { logo: stocktwitsLogo, url: 'https://stocktwits.com/symbol/{symbol}', title: 'StockTwits' },
-    { logo: seekingalphaLogo, url: 'https://seekingalpha.com/symbol/{symbol}', title: 'SeekingAlpha' },
-    { logo: openinsiderLogo, url: 'http://openinsider.com/search?q={symbol}', title: 'OpenInsider' },
-    { logo: whalewisdomLogo, url: 'https://whalewisdom.com/stock/{symbol}', title: 'WhaleWisdom' },
-    { logo: googleLogo, url: 'https://www.google.com/search?q=%24{symbol}+news', title: 'Google News' },
-    { icon: 'fa-solid fa-chart-column', url: 'https://fintel.io/ss/us/{symbol}', title: 'Fintel Short Interest' },
-  ];
 
   const parseNumberInput = (input) => {
     input = input.replace(/,/g, '').replace(/\s+/g, '').toLowerCase();
@@ -114,16 +135,14 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
 
   const handlePremiumInputChange = (input) => {
     if (!input) {
-      // If input is empty, reset premium value and input display
       setPremiumInput('');
       setPremiumValue(0);
     } else {
       const parsedValue = parseNumberInput(input);
       if (!isNaN(parsedValue)) {
-        setPremiumInput(parsedValue.toLocaleString()); // Keep the user's raw input to display
-        setPremiumValue(parsedValue); // Store the raw number for calculations
+        setPremiumInput(parsedValue.toLocaleString());
+        setPremiumValue(parsedValue);
       } else {
-        // If parsing fails, do not update the premiumValue to NaN
         setPremiumInput(input);
       }
     }
@@ -132,13 +151,42 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
   const calculatePremiumRatio = () => {
     if (companyData && companyData.mktCap && !isNaN(premiumValue)) {
       const ratio = (premiumValue / companyData.mktCap) * 100;
-      setPremiumRatio(ratio.toFixed(2)); // Calculate and update ratio
-
-      const calculatedScore = (ratio * 100).toFixed(2); // Scale up ratio for score representation
+      setPremiumRatio(ratio.toFixed(2));
+      const calculatedScore = (ratio * 100).toFixed(2);
       setScore(calculatedScore);
     } else {
       setPremiumRatio(null);
       setScore(null);
+    }
+  };
+
+  // Define the quickLinks array
+  const quickLinks = [
+    { logo: tradingviewLogo, url: 'https://www.tradingview.com/chart/?symbol={symbol}', title: 'TradingView Chart' },
+    { logo: unusualwhalesLogo, url: 'https://unusualwhales.com/stock/{symbol}/seasonality', title: 'UW Seasonality' },
+    { logo: unusualwhalesLogo, url: 'https://unusualwhales.com/stock/{symbol}/institutions', title: 'UW Institutions' },
+    { logo: twitterLogo, url: 'https://x.com/search?q=%24{symbol}&src=typed_query', title: 'X (Twitter)' },
+    { logo: stocktwitsLogo, url: 'https://stocktwits.com/symbol/{symbol}', title: 'StockTwits' },
+    { logo: seekingalphaLogo, url: 'https://seekingalpha.com/symbol/{symbol}', title: 'SeekingAlpha' },
+    { logo: openinsiderLogo, url: 'http://openinsider.com/search?q={symbol}', title: 'OpenInsider' },
+    { logo: whalewisdomLogo, url: 'https://whalewisdom.com/stock/{symbol}', title: 'WhaleWisdom' },
+    { logo: googleLogo, url: 'https://www.google.com/search?q=%24{symbol}+news', title: 'Google News' },
+    { logo: googleLogo, url: 'https://www.google.com/search?q={symbol}+investor+letter+investment+case', title: 'Google Investor Letter' },
+    { logo: fintelLogo, url: 'https://fintel.io/ss/us/{symbol}', title: 'Fintel Short Interest' },
+    { logo: fintelLogo, url: 'https://fintel.io/so/us/{symbol}', title: 'Institutional Accumulation' },
+    { logo: finvizLogo, url: 'https://finviz.com/quote.ashx?t={symbol}', title: 'Finviz Overview' },
+  ];
+
+  const openAllLinks = () => {
+    const tradingViewLink = quickLinks.find(link => link.title === 'TradingView Chart');
+    const otherLinks = quickLinks.filter(link => link.title !== 'TradingView Chart');
+
+    otherLinks.forEach(link => {
+      window.open(link.url.replace('{symbol}', currentStockSymbol), '_blank');
+    });
+
+    if (tradingViewLink) {
+      window.open(tradingViewLink.url.replace('{symbol}', currentStockSymbol), '_blank');
     }
   };
 
@@ -170,10 +218,27 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
             />
             <h3 style={{ fontSize: '1.2rem', fontWeight: 'bold', margin: 0 }}>{companyData.companyName} ({companyData.symbol})</h3>
           </div>
+
+          {priceData && (
+            <p style={{ fontSize: '1rem', margin: '0.3rem 0' }}>
+              <span style={{ color: '#FFFFFF' }}>${priceData.price.toFixed(2)}</span>
+              {' '}
+              <span style={{ color: priceData.change >= 0 ? '#00FF00' : '#FF0000' }}>
+                {priceData.change >= 0 ? `+${priceData.change.toFixed(2)}` : priceData.change.toFixed(2)}
+              </span>
+              {' '}
+              <span style={{ color: priceData.changePercent >= 0 ? '#00FF00' : '#FF0000' }}>
+                ({priceData.changePercent >= 0 ? `+${priceData.changePercent.toFixed(2)}` : priceData.changePercent.toFixed(2)}%)
+              </span>
+            </p>
+          )}
+
           <p style={{ margin: '0.3rem 0' }}><strong>Market Cap:</strong> {formatMarketCap(companyData.mktCap)}</p>
-          <p style={{ margin: '0.3rem 0' }}><strong>Industry:</strong> {companyData.industry}</p>
-          <p style={{ margin: '0.3rem 0' }}>
-            <strong>Description:</strong> {isDescriptionExpanded ? companyData.description : getShortDescription(companyData.description)}
+          <p style={{ margin: '0.3rem 0' }}><strong>Industry:</strong> {companyData.industry || 'N/A'}</p>
+          {companyData.earningsDate && <p style={{ margin: '0.3rem 0' }}><strong>Next Earnings Date:</strong> {companyData.earningsDate}</p>}
+          {companyData.dividendDate && <p style={{ margin: '0.3rem 0' }}><strong>Next Dividend Date:</strong> {companyData.dividendDate}</p>}
+          {companyData.shortPercentOfFloat && <p style={{ margin: '0.3rem 0' }}><strong>Short % of Float:</strong> {companyData.shortPercentOfFloat}%</p>}
+          <p style={{ margin: '0.3rem 0' }}><strong>Description:</strong> {isDescriptionExpanded ? companyData.description : `${companyData.description.substring(0, 100)}...`}
             {companyData.description && companyData.description.length > 100 && (
               <button
                 onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
@@ -223,7 +288,7 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
             <a
               key={index}
               href="#"
-              onClick={() => openLink(link.url)}
+              onClick={() => window.open(link.url.replace('{symbol}', currentStockSymbol), '_blank')}
               title={link.title}
               style={{ textAlign: 'center' }}
             >
@@ -235,26 +300,39 @@ const Sidebar = ({ currentStockSymbol, onLoadStock }) => {
             </a>
           ))}
         </div>
-        <button onClick={() => quickLinks.forEach(link => openLink(link.url))} className="load-btn" style={{ width: '100%' }}>Open All</button>
+        <button onClick={openAllLinks} className="load-btn" style={{ width: '100%' }}>Open All</button>
       </div>
 
-      {/* API Key Section without border */}
+      {/* API Key Section */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
         <button onClick={() => setIsApiKeyVisible(!isApiKeyVisible)} className="load-btn" style={{ width: '100%' }}>
-          {isApiKeyVisible ? 'Hide API Key' : 'Show API Key'}
+          {isApiKeyVisible ? 'Hide API Keys' : 'Show API Keys'}
         </button>
         {isApiKeyVisible && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <input
-              type="text"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              placeholder="Enter API Key"
-              className="api-key-input"
-              style={{ height: '2rem', flexGrow: 1 }}
-            />
-            <button onClick={handleApiKeySave} className="load-btn" style={{ height: '2.2rem' }}>Save</button>
-          </div>
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <input
+                type="text"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                placeholder="Financial Model Prep API Key"
+                className="api-key-input"
+                style={{ height: '2rem', flexGrow: 1 }}
+              />
+              <button onClick={handleApiKeySave} className="load-btn" style={{ height: '2.2rem' }}>Save</button>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <input
+                type="text"
+                value={aletheiaApiKey}
+                onChange={(e) => setAletheiaApiKey(e.target.value)}
+                placeholder="Aletheia API Key"
+                className="api-key-input"
+                style={{ height: '2rem', flexGrow: 1 }}
+              />
+              <button onClick={handleAletheiaApiKeySave} className="load-btn" style={{ height: '2.2rem' }}>Save</button>
+            </div>
+          </>
         )}
       </div>
     </div>
