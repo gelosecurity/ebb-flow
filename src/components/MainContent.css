@@ -128,3 +128,42 @@
   z-index: 99997; /* Just below command palette overlay */
   background: transparent;
 }
+
+.dark-pool-buttons {
+  display: inline-flex;
+  gap: 8px;
+  margin-left: 8px;
+  align-items: center;
+}
+
+.dark-pool-button {
+  background-color: #5A2D82; /* Dark purple color */
+  color: #e0e0e0;
+  border: none;
+  padding: 4px 10px; /* Compact padding for close alignment */
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.dark-pool-button:hover {
+  background-color: #482467; /* Darker purple on hover */
+}
+
+.window-title {
+  display: flex;
+  align-items: center;
+  background-color: #2b2b2b;
+  color: #e0e0e0;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.window-title > .dark-pool-buttons {
+  margin-left: 8px; /* Positions buttons directly beside the title */
+}
+
