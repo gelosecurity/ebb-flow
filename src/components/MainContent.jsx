@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import './MainContent.css';
 
-const MainContent = ({ currentStockSymbol, isNotepadOpen }) => {
+const MainContent = ({ currentStockSymbol, isNotepadOpen, isCommandPaletteOpen }) => {
   const defaultConfigs = [
     {
       url: `https://unusualwhales.com/option-charts/ticker-flow?ticker_symbol={symbol}`,
@@ -74,6 +74,7 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen }) => {
                       {colIndex > 0 && <PanelResizeHandle className="resize-handle" />}
                       <Panel>
                         <div className="window-wrapper">
+                          <div className="window-title">{config.title}</div>
                           <button className="remove-window" onClick={() => removeWindow(index)}>×</button>
                           <iframe
                             src={config.url.replace('{symbol}', currentStockSymbol)}
@@ -94,6 +95,7 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen }) => {
 
   return (
     <div className={`main-content ${isNotepadOpen ? 'notepad-open' : ''}`}>
+      {isCommandPaletteOpen && <div className="iframe-overlay" />}
       <div className="window-controls">
         <input
           type="text"
