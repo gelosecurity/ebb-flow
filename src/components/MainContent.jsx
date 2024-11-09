@@ -9,12 +9,7 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen, isCommandPaletteOpen }
       title: 'Option Flow',
     },
     {
-      url: `https://unusualwhales.com/dark-pool-flow?limit=50&newer_than=1704096000000&older_than=1735718340000&order=Prem&ticker_symbol={symbol}`,
       title: 'Dark Pool Flow',
-    },
-    {
-      url: `https://unusualwhales.com/lit-flow?limit=50&ticker_symbol={symbol}`,
-      title: 'Lit Pool Flow',
     },
     {
       url: `https://unusualwhales.com/stock/{symbol}/greek-exposure?tab=Gamma`,
@@ -25,6 +20,11 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen, isCommandPaletteOpen }
   const [windowConfigs, setWindowConfigs] = useState(defaultConfigs);
   const [newWindowUrl, setNewWindowUrl] = useState('');
   const [newWindowTitle, setNewWindowTitle] = useState('');
+  const [darkPoolTimeframe, setDarkPoolTimeframe] = useState('1Y'); // Default timeframe
+
+  const updateDarkPoolUrl = (timeframe) => {
+    setDarkPoolTimeframe(timeframe); // Set the timeframe without modifying the URL in state
+  };
 
   useEffect(() => {
     const savedConfigs = localStorage.getItem('windowConfigs');
@@ -53,46 +53,6 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen, isCommandPaletteOpen }
     setWindowConfigs(defaultConfigs);
   };
 
-  const renderPanels = () => {
-    const numPanels = windowConfigs.length;
-    const columns = Math.ceil(Math.sqrt(numPanels));
-    const rows = Math.ceil(numPanels / columns);
-
-    return (
-      <PanelGroup direction="vertical">
-        {Array.from({ length: rows }).map((_, rowIndex) => (
-          <React.Fragment key={rowIndex}>
-            {rowIndex > 0 && <PanelResizeHandle className="resize-handle" />}
-            <Panel>
-              <PanelGroup direction="horizontal">
-                {Array.from({ length: columns }).map((_, colIndex) => {
-                  const index = rowIndex * columns + colIndex;
-                  if (index >= numPanels) return null;
-                  const config = windowConfigs[index];
-                  return (
-                    <React.Fragment key={colIndex}>
-                      {colIndex > 0 && <PanelResizeHandle className="resize-handle" />}
-                      <Panel>
-                        <div className="window-wrapper">
-                          <div className="window-title">{config.title}</div>
-                          <button className="remove-window" onClick={() => removeWindow(index)}>×</button>
-                          <iframe
-                            src={config.url.replace('{symbol}', currentStockSymbol)}
-                            title={config.title}
-                          />
-                        </div>
-                      </Panel>
-                    </React.Fragment>
-                  );
-                })}
-              </PanelGroup>
-            </Panel>
-          </React.Fragment>
-        ))}
-      </PanelGroup>
-    );
-  };
-
   return (
     <div className={`main-content ${isNotepadOpen ? 'notepad-open' : ''}`}>
       {isCommandPaletteOpen && <div className="iframe-overlay" />}
@@ -109,12 +69,72 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen, isCommandPaletteOpen }
           onChange={(e) => setNewWindowTitle(e.target.value)}
           placeholder="Enter window title"
         />
-        <button onClick={addNewWindow}>Add Window</button>
+        <button onClick={addNewWindow} className="add-window">Add Window</button>
         <button onClick={resetToDefault} className="reset-to-default">Reset to Default</button>
       </div>
-      <div className="panel-container">
-        {renderPanels()}
-      </div>
+      <PanelGroup direction="horizontal">
+        {/* Left half: Option Flow */}
+        <Panel>
+          <div className="window-wrapper">
+            <div className="window-title">Option Flow</div>
+            <iframe
+              src={`https://unusualwhales.com/option-charts/ticker-flow?ticker_symbol=${currentStockSymbol}`}
+              title="Option Flow"
+            />
+          </div>
+        </Panel>
+        
+        <PanelResizeHandle className="resize-handle" />
+
+        {/* Right half: Dark Pool Flow (upper) and Greek Exposure (lower) */}
+        <Panel>
+          <PanelGroup direction="vertical">
+            {/* Dark Pool Flow (upper half of the right pane) */}
+            <Panel>
+              <div className="window-wrapper">
+                <div className="window-title">
+                  Dark Pool Flow
+                  <div className="dark-pool-buttons">
+                    <button
+                      className="dark-pool-button"
+                      onClick={() => updateDarkPoolUrl('all-time')}
+                    >
+                      All-Time Dark Pool
+                    </button>
+                    <button
+                      className="dark-pool-button"
+                      onClick={() => updateDarkPoolUrl('1Y')}
+                    >
+                      1Y Dark Pool
+                    </button>
+                  </div>
+                </div>
+                <iframe
+                  src={
+                    darkPoolTimeframe === 'all-time'
+                      ? `https://unusualwhales.com/dark-pool-flow?limit=50&newer_than=946684800000&older_than=1893456000000&order=Prem&ticker_symbol=${currentStockSymbol}`
+                      : `https://unusualwhales.com/dark-pool-flow?limit=50&newer_than=1704096000000&older_than=1735718340000&order=Prem&ticker_symbol=${currentStockSymbol}`
+                  }
+                  title="Dark Pool Flow"
+                />
+              </div>
+            </Panel>
+
+            <PanelResizeHandle className="resize-handle" />
+
+            {/* Greek Exposure (lower half of the right pane) */}
+            <Panel>
+              <div className="window-wrapper">
+                <div className="window-title">Greek Exposure</div>
+                <iframe
+                  src={`https://unusualwhales.com/stock/${currentStockSymbol}/greek-exposure?tab=Gamma`}
+                  title="Greek Exposure"
+                />
+              </div>
+            </Panel>
+          </PanelGroup>
+        </Panel>
+      </PanelGroup>
     </div>
   );
 };
