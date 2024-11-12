@@ -20,7 +20,7 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen, isCommandPaletteOpen }
   const [windowConfigs, setWindowConfigs] = useState(defaultConfigs);
   const [newWindowUrl, setNewWindowUrl] = useState('');
   const [newWindowTitle, setNewWindowTitle] = useState('');
-  const [darkPoolTimeframe, setDarkPoolTimeframe] = useState('1Y'); // Default timeframe
+  const [darkPoolTimeframe, setDarkPoolTimeframe] = useState('all-time'); // Default timeframe
 
   const updateDarkPoolUrl = (timeframe) => {
     setDarkPoolTimeframe(timeframe); // Set the timeframe without modifying the URL in state
@@ -103,17 +103,17 @@ const MainContent = ({ currentStockSymbol, isNotepadOpen, isCommandPaletteOpen }
                     </button>
                     <button
                       className="dark-pool-button"
-                      onClick={() => updateDarkPoolUrl('1Y')}
+                      onClick={() => updateDarkPoolUrl('YTD')}
                     >
-                      1Y Dark Pool
+                      YTD Dark Pool
                     </button>
                   </div>
                 </div>
                 <iframe
                   src={
                     darkPoolTimeframe === 'all-time'
-                      ? `https://unusualwhales.com/dark-pool-flow?limit=50&newer_than=946684800000&older_than=1893456000000&order=Prem&ticker_symbol=${currentStockSymbol}`
-                      : `https://unusualwhales.com/dark-pool-flow?limit=50&newer_than=1704096000000&older_than=1735718340000&order=Prem&ticker_symbol=${currentStockSymbol}`
+                      ? `https://unusualwhales.com/dark-pool-flow?limit=50&newer_than=946684800000&older_than=1893456000000&order=Size&ticker_symbol=${currentStockSymbol}`
+                      : `https://unusualwhales.com/dark-pool-flow?limit=50&newer_than=1704096000000&older_than=1735718340000&order=Size&ticker_symbol=${currentStockSymbol}`
                   }
                   title="Dark Pool Flow"
                 />
